@@ -1,0 +1,46 @@
+package attendance;
+import java.io.*;
+
+class InvalidRollNumberException extends Exception {
+    public InvalidRollNumberException(String msg) { super(msg); }
+}
+
+class AttendanceRecord {
+    private Student student;
+    private String date;
+    private boolean present;
+
+    public AttendanceRecord(Student student, String date, boolean present) {
+        this.student = student;
+        this.date = date;
+        this.present = present;
+    }
+
+    public void markAttendance() throws InvalidRollNumberException {
+        if (student == null || student.id.isEmpty())
+            throw new InvalidRollNumberException("Invalid or missing Roll Number!");
+        System.out.println("Attendance marked for " + student.name + " on " + date + ": " + (present ? "Present" : "Absent"));
+    }
+
+    public void exportToCSV() {
+        try (FileWriter fw = new FileWriter("attendance_report.csv", true)) {
+            fw.write(student.id + "," + student.name + "," + date + "," + (present ? "P" : "A") + "\n");
+            System.out.println("Record exported to CSV.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+public class Module2 {
+    public static void main(String[] args) {
+        try {
+            Student s = new Student("S101", "Rahul", "CSE");
+            AttendanceRecord ar = new AttendanceRecord(s, "2025-11-10", true);
+            ar.markAttendance();
+            ar.exportToCSV();
+        } catch (InvalidRollNumberException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
