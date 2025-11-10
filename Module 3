@@ -1,0 +1,38 @@
+package attendance;
+import java.util.*;
+
+class GenericAttendanceDB<T> {
+    private List<T> records = new ArrayList<>();
+
+    public synchronized void addRecord(T record) {
+        records.add(record);
+        System.out.println("Record added: " + record);
+    }
+
+    public synchronized List<T> search(Predicate<T> condition) {
+        return records.stream().filter(condition).toList();
+    }
+}
+
+class ReportGenerator extends Thread {
+    private String month;
+
+    public ReportGenerator(String month) {
+        this.month = month;
+    }
+
+    public void run() {
+        System.out.println("Generating attendance report for " + month + "...");
+        try { Thread.sleep(2000); } catch (Exception e) {}
+        System.out.println("Report generated for " + month);
+    }
+}
+
+public class Module3 {
+    public static void main(String[] args) {
+        ReportGenerator r1 = new ReportGenerator("November 2025");
+        ReportGenerator r2 = new ReportGenerator("October 2025");
+        r1.start();
+        r2.start();
+    }
+}
