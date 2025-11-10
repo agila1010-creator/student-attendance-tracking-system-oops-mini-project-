@@ -1,0 +1,46 @@
+package attendance;
+abstract class Person {
+    protected String id;
+    protected String name;
+
+    public Person(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public abstract void displayDetails();
+}
+
+class Student extends Person {
+    private String course;
+
+    public Student(String id, String name, String course) {
+        super(id, name);
+        this.course = course;
+    }
+
+    @Override
+    public void displayDetails() {
+        System.out.println("Student ID: " + id + " | Name: " + name + " | Course: " + course);
+    }
+}
+
+class Faculty extends Person {
+    public Faculty(String id, String name) {
+        super(id, name);
+    }
+
+    @Override
+    public void displayDetails() {
+        System.out.println("Faculty ID: " + id + " | Name: " + name);
+    }
+}
+
+public class Module1 {
+    public static void main(String[] args) {
+        Student s1 = new Student("S101", "Rahul Sharma", "B.Tech CSE");
+        Faculty f1 = new Faculty("F001", "Prof. Anita Verma");
+        s1.displayDetails();
+        f1.displayDetails();
+    }
+}
