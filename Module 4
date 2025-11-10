@@ -1,0 +1,21 @@
+package attendance;
+import java.sql.*;
+
+public class Module4_DB {
+    public static void main(String[] args) {
+        String url = "jdbc:mysql://localhost:3306/attendance_db";
+        String user = "root", pass = "password";
+
+        try (Connection con = DriverManager.getConnection(url, user, pass)) {
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("SELECT s.rollno, s.name, COUNT(a.date) AS present_days " +
+                                            "FROM students s LEFT JOIN attendance a ON s.rollno = a.rollno " +
+                                            "WHERE a.status = 'P' GROUP BY s.rollno");
+
+            while (rs.next()) {
+                System.out.println(rs.getString("rollno") + " | " + rs.getString("name") +
+                                 " | Present: " + rs.getInt("present_days") + " days");
+            }
+        } catch (Exception e) { e.printStackTrace(); }
+    }
+}
