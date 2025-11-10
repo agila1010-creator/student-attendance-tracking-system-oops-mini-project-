@@ -1,0 +1,49 @@
+package attendance;
+import javax.swing.*;
+import java.awt.event.*;
+import java.awt.*;
+
+public class Module5 {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Student Attendance Tracker");
+        frame.setLayout(new GridLayout(5, 2, 10, 10));
+
+        JLabel l1 = new JLabel("Roll No:");
+        JTextField t1 = new JTextField(10);
+        JLabel l2 = new JLabel("Name:");
+        JTextField t2 = new JTextField(15);
+        JLabel l3 = new JLabel("Date (YYYY-MM-DD):");
+        JTextField t3 = new JTextField("2025-11-10", 10);
+        JRadioButton present = new JRadioButton("Present");
+        JRadioButton absent = new JRadioButton("Absent");
+        ButtonGroup bg = new ButtonGroup();
+        bg.add(present); bg.add(absent);
+        present.setSelected(true);
+
+        JButton mark = new JButton("Mark Attendance");
+        JTextArea result = new JTextArea(5, 20);
+        result.setEditable(false);
+
+        mark.addActionListener(e -> {
+            String status = present.isSelected() ? "Present" : "Absent";
+            result.setText("Attendance Marked!\n" +
+                          "Roll No: " + t1.getText() + "\n" +
+                          "Name: " + t2.getText() + "\n" +
+                          "Date: " + t3.getText() + "\n" +
+                          "Status: " + status);
+        });
+
+        JPanel panel = new JPanel();
+        panel.add(l1); panel.add(t1);
+        panel.add(l2); panel.add(t2);
+        panel.add(l3); panel.add(t3);
+        panel.add(present); panel.add(absent);
+        panel.add(mark);
+        panel.add(new JScrollPane(result));
+
+        frame.add(panel);
+        frame.setSize(400, 350);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
+}
